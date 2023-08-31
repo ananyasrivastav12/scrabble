@@ -1,15 +1,10 @@
 import { scoring } from './scoring.js';
 
 function shuffle(array) {
-  // Fisher-Yates shuffle, used for random decoder cipher below
   let m = array.length;
-
-  // While there remain elements to shuffle…
   while (m) {
-    // Pick a remaining element…
     let i = Math.floor(Math.random() * m--);
 
-    // And swap it with the current element.
     let t = array[m];
     array[m] = array[i];
     array[i] = t;
@@ -31,10 +26,6 @@ export class Game {
     }
   }
 
-  /**
-   * This function will reset the game to the default state.
-   * It will NOT update visually, hence render should be called after resetting.
-   */
   reset() {
     // Initialize the bag.
     const frequencies = {
@@ -109,27 +100,14 @@ export class Game {
     }
   }
 
-  /**
-   * A utility function to persist the current state of the bag.
-   */
   _saveBag() {
     window.localStorage.setItem('bag', JSON.stringify(this.bag));
   }
 
-  /**
-   * A utility function to persist the current state of the grid.
-   */
   _saveGrid() {
     window.localStorage.setItem('grid', JSON.stringify(this.grid));
   }
 
-  /**
-   * This function removes the first n tiles from the bag and returns them. If n
-   * is greater than the number of remaining tiles, this removes and returns all
-   * the tiles from the bag. If the bag is empty, this returns an empty array.
-   * @param {number} n The number of tiles to take from the bag.
-   * @returns {Array<string>} The first n tiles removed from the bag.
-   */
   takeFromBag(n) {
     if (n >= this.bag.length) {
       const drawn = this.bag;
@@ -144,13 +122,7 @@ export class Game {
     return drawn;
   }
 
-  /**
-   * This function returns the current state of the board. The positions where
-   * there are no tiles can be anything (undefined, null, ...).
-   *
-   * @returns {Array<Array<string>>} A 2-dimensional array representing the
-   * current grid.
-   */
+
   getGrid() {
     return this.grid;
   }
@@ -179,22 +151,9 @@ export class Game {
     }
   }
 
-  /**
-   * This function will be called when a player takes a turn and attempts to
-   * place a word on the board. It will check whether the word can be placed at
-   * the given position. If not, it'll return -1. It will then compute the score
-   * that the word will receive and return it, taking into account special
-   * positions.
-   *
-   * @param {string} word The word to be placed.
-   * @param {Object<x|y, number>} position The position, an object with
-   * properties x and y. Example: { x: 2, y: 3 }.
-   * @param {boolean} direction Set to true if horizontal, false if vertical.
-   * @returns {number} The score the word will obtain (including special tiles),
-   * or -1 if the word cannot be placed.
-   */
+  
   playAt(word, position, direction) {
-    // We first check if the word can be placed
+    //check if the word can be placed
     if (!this._canBePlacedOnBoard(word, position, direction)) {
       return -1;
     }
